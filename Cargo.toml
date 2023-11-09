@@ -1,0 +1,33 @@
+[package]
+name = "artcx"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+geo = "0.26.0"
+js-sys = "0.3.64"
+wasm-bindgen = "0.2.87"
+
+[dependencies.web-sys]
+version = "0.3.64"
+features = [
+  'CanvasRenderingContext2d',
+  'CssStyleDeclaration',
+  'Document',
+  'Element',
+  'EventTarget',
+  'HtmlCanvasElement',
+  'HtmlElement',
+  'MouseEvent',
+  'Node',
+  'Window',
+  'Performance',
+  'PerformanceTiming',
+  'TextMetrics',
+  'Touch',
+  'TouchEvent',
+  'TouchList'
+]

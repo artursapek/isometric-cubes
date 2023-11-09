@@ -1,0 +1,7 @@
+html {
+  scroll: none;
+  -webkit-overflow-scrolling: touch;
+}
+body {
+  margin: 0;
+}
