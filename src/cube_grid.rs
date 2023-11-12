@@ -376,13 +376,13 @@ impl CubeGrid {
 
     fn sort_cubes(&mut self) {
         self.cubes.sort_by(|a, b| {
-            let (_, ay) =
-                self.grid
-                    .project(a.coord.x + a.size / 2.0, a.coord.y + a.size / 2.0, 0.0);
-            let (_, by) =
-                self.grid
-                    .project(b.coord.x + b.size / 2.0, b.coord.y + b.size / 2.0, 0.0);
-            by.partial_cmp(&ay).unwrap()
+            let a = self
+                .grid
+                .project(a.coord.x + a.size / 2.0, a.coord.y + a.size / 2.0, 0.0);
+            let b = self
+                .grid
+                .project(b.coord.x + b.size / 2.0, b.coord.y + b.size / 2.0, 0.0);
+            b.y.partial_cmp(&a.y).unwrap()
         });
     }
 

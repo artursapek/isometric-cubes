@@ -34,7 +34,7 @@ impl Link {
         }
     }
     pub fn draw(&self, context: &web_sys::CanvasRenderingContext2d, grid: &Grid) {
-        let (x, y) = grid.project(self.coord.x, self.coord.y, 0.0);
+        let Coord { x, y } = grid.project(self.coord.x, self.coord.y, 0.0);
 
         let _ = context.translate(x, y);
         let _ = context.scale(1.0, 0.5);
@@ -62,17 +62,12 @@ impl Link {
     }
 
     pub fn hit_test(&self, posn: &Coord, grid: &Grid) -> bool {
-        let (x, y) = grid.project(self.coord.x - 20.0, self.coord.y + 10.0, 0.0);
-        let (x2, y2) = grid.project(self.coord.x - 20.0, self.coord.y - self.width * 0.75, 0.0);
-        let (x3, y3) = grid.project(self.coord.x + 20.0, self.coord.y - self.width * 0.75, 0.0);
-        let (x4, y4) = grid.project(self.coord.x + 20.0, self.coord.y + 10.0, 0.0);
+        let c1 = grid.project(self.coord.x - 20.0, self.coord.y + 10.0, 0.0);
+        let c2 = grid.project(self.coord.x - 20.0, self.coord.y - self.width * 0.75, 0.0);
+        let c3 = grid.project(self.coord.x + 20.0, self.coord.y - self.width * 0.75, 0.0);
+        let c4 = grid.project(self.coord.x + 20.0, self.coord.y + 10.0, 0.0);
 
-        let edges = polygon![
-            (x: x, y: y),
-            (x: x2, y: y2),
-            (x: x3, y: y3),
-            (x: x4, y: y4),
-        ];
+        let edges = polygon![c1, c2, c3, c4];
 
         edges.contains(&Coord {
             x: posn.x * grid.device_pixel_ratio,

@@ -70,53 +70,55 @@ impl Cube {
             let d = grid.project(self.coord.x, self.coord.y + size, 0.0);
 
             context.begin_path();
-            context.move_to(a.0, a.1);
-            context.line_to(b.0, b.1);
-            context.line_to(c.0, c.1);
-            context.line_to(d.0, d.1);
-            context.line_to(a.0, a.1);
+            context.move_to(a.x, a.y);
+            context.line_to(b.x, b.y);
+            context.line_to(c.x, c.y);
+            context.line_to(d.x, d.y);
+            context.line_to(a.x, a.y);
             context.set_fill_style(&JsValue::from_str(CUBE_COLOR_LEFT));
             context.fill();
             context.stroke();
         }
 
+        // Draw right face
         {
-            // Draw right
             let a = grid.project(self.coord.x + size, self.coord.y + size, 0.0);
             let b = grid.project(self.coord.x + size, self.coord.y + size, size);
             let c = grid.project(self.coord.x + size, self.coord.y, size);
             let d = grid.project(self.coord.x + size, self.coord.y, 0.0);
             context.begin_path();
-            context.move_to(a.0, a.1);
-            context.line_to(b.0, b.1);
-            context.line_to(c.0, c.1);
-            context.line_to(d.0, d.1);
-            context.line_to(a.0, a.1);
+            context.move_to(a.x, a.y);
+            context.line_to(b.x, b.y);
+            context.line_to(c.x, c.y);
+            context.line_to(d.x, d.y);
+            context.line_to(a.x, a.y);
             context.set_fill_style(&JsValue::from_str(CUBE_COLOR_RIGHT));
             context.fill();
             context.stroke();
         }
 
-        // Draw top
+        // Draw top face
         {
             let a = grid.project(self.coord.x, self.coord.y + size, size);
             let b = grid.project(self.coord.x + size, self.coord.y + size, size);
             let c = grid.project(self.coord.x + size, self.coord.y, size);
             let d = grid.project(self.coord.x, self.coord.y, size);
             context.begin_path();
-            context.move_to(a.0, a.1);
-            context.line_to(b.0, b.1);
-            context.line_to(c.0, c.1);
-            context.line_to(d.0, d.1);
-            context.line_to(a.0, a.1);
+            context.move_to(a.x, a.y);
+            context.line_to(b.x, b.y);
+            context.line_to(c.x, c.y);
+            context.line_to(d.x, d.y);
+            context.line_to(a.x, a.y);
             context.set_fill_style(&JsValue::from_str(CUBE_COLOR_TOP));
             context.fill();
             context.stroke();
         }
 
+        // Draw character on top face
         {
-            let (tx, ty) = grid.project(self.coord.x + size / 2.0, self.coord.y + size / 2.0, size);
-            context.translate(tx, ty);
+            let text_position =
+                grid.project(self.coord.x + size / 2.0, self.coord.y + size / 2.0, size);
+            context.translate(text_position.x, text_position.y);
             context.scale(1.0, 0.5);
             context.rotate(-std::f64::consts::PI / 4.0);
             context.set_font(&format!("{}px sans-serif", self.size));
@@ -124,7 +126,6 @@ impl Cube {
             context.set_text_baseline("middle");
             context.set_fill_style(&JsValue::from_str("#294252"));
             context.fill_text(&self.character.to_string(), 0.0, 0.0);
-            //context.fill_text(&format!("{}", self.id), 0.0, 0.0);
         }
 
         context.reset_transform();
@@ -145,44 +146,44 @@ impl Cube {
         };
 
         // gl = ground line
-        let g_light = grid.project_coord(grid.light_source.x, grid.light_source.y, 0.0);
+        let g_light = grid.project(grid.light_source.x, grid.light_source.y, 0.0);
         let gl_tl: Line = extrapolate(Line::new(
             g_light,
-            grid.project_coord(corners.tl.x, corners.tl.y, 0.0),
+            grid.project(corners.tl.x, corners.tl.y, 0.0),
         ));
         let gl_tr: Line = extrapolate(Line::new(
             g_light,
-            grid.project_coord(corners.tr.x, corners.tr.y, 0.0),
+            grid.project(corners.tr.x, corners.tr.y, 0.0),
         ));
         let gl_br: Line = extrapolate(Line::new(
             g_light,
-            grid.project_coord(corners.br.x, corners.br.y, 0.0),
+            grid.project(corners.br.x, corners.br.y, 0.0),
         ));
         let gl_bl: Line = extrapolate(Line::new(
             g_light,
-            grid.project_coord(corners.bl.x, corners.bl.y, 0.0),
+            grid.project(corners.bl.x, corners.bl.y, 0.0),
         ));
 
-        let a_light = grid.project_coord(
+        let a_light = grid.project(
             grid.light_source.x,
             grid.light_source.y,
             grid.light_source.z,
         );
         let al_tl: Line = extrapolate(Line::new(
             a_light,
-            grid.project_coord(corners.tl.x, corners.tl.y, self.size),
+            grid.project(corners.tl.x, corners.tl.y, self.size),
         ));
         let al_tr: Line = extrapolate(Line::new(
             a_light,
-            grid.project_coord(corners.tr.x, corners.tr.y, self.size),
+            grid.project(corners.tr.x, corners.tr.y, self.size),
         ));
         let al_br: Line = extrapolate(Line::new(
             a_light,
-            grid.project_coord(corners.br.x, corners.br.y, self.size),
+            grid.project(corners.br.x, corners.br.y, self.size),
         ));
         let al_bl: Line = extrapolate(Line::new(
             a_light,
-            grid.project_coord(corners.bl.x, corners.bl.y, self.size),
+            grid.project(corners.bl.x, corners.bl.y, self.size),
         ));
 
         let ix_tl = geo::algorithm::line_intersection::line_intersection(gl_tl, al_tl);
@@ -209,10 +210,10 @@ impl Cube {
                     ..
                 }),
             ) => {
-                let tl = grid.project_coord(corners.tl.x, corners.tl.y, 0.0);
-                let tr = grid.project_coord(corners.tr.x, corners.tr.y, 0.0);
-                let bl = grid.project_coord(corners.bl.x, corners.bl.y, 0.0);
-                let br = grid.project_coord(corners.br.x, corners.br.y, 0.0);
+                let tl = grid.project(corners.tl.x, corners.tl.y, 0.0);
+                let tr = grid.project(corners.tr.x, corners.tr.y, 0.0);
+                let bl = grid.project(corners.bl.x, corners.bl.y, 0.0);
+                let br = grid.project(corners.br.x, corners.br.y, 0.0);
                 let x_range = self.coord.x..(self.coord.x + self.size);
                 let y_range = self.coord.y..(self.coord.y + self.size);
 
@@ -266,7 +267,7 @@ impl Cube {
     }
 
     pub fn hit_test(&self, posn: &Coord, grid: &Grid) -> bool {
-        let (x, y) = grid.project(self.coord.x, self.coord.y, 0.0);
+        let Coord { x, y } = grid.project(self.coord.x, self.coord.y, 0.0);
 
         let edges = polygon![
             (x: x, y: y - self.size),

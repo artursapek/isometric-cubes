@@ -27,18 +27,13 @@ impl Default for LightSource {
 }
 
 impl Grid {
-    pub fn project(&self, x: f64, y: f64, z: f64) -> (f64, f64) {
+    pub fn project(&self, x: f64, y: f64, z: f64) -> Coord {
         let (left_offset, top_offset) = self.offset();
 
         let x = x - y;
-        let y = (x + y * 2.0) / 2.0;
+        let y = ((x + y * 2.0) / 2.0) - z;
 
-        (x + left_offset, y - z + top_offset)
-    }
-
-    pub fn project_coord(&self, x: f64, y: f64, z: f64) -> Coord {
-        let (x, y) = self.project(x, y, z);
-        coord! { x: x, y: y }
+        coord! { x: x + left_offset, y: y + top_offset }
     }
 
     pub fn cartesian_to_iso(&self, x: f64, y: f64) -> (f64, f64) {
