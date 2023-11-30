@@ -24,7 +24,7 @@ bash build.sh
 Then to run it:
 
 ```
-cd release
+cd dist
 ./server
 ```
 
@@ -34,7 +34,7 @@ Alternatively, you can run only the cube page with auto recompiling:
 
 ```
 cd cubes
-npm run serve
+npm run dev
 ```
 
 This should run a webpack dev server on localhost:8080 or similar.

@@ -1,4 +1,6 @@
-rsync -av ./release/* artcx:/app/art.cx/
+#!/bin/sh
+
+rsync -av ./dist/* artcx:/app/art.cx/
 
 ssh artcx <<EOF
 cd /app/art.cx
