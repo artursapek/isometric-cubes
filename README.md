@@ -13,11 +13,28 @@ Try it live here: [https://art.cx](https://art.cx)
 
 ## Setup
 
-To run the app:
+The website is a tiny [`axum`](https://github.com/tokio-rs/axum/tree/main) server, which as of now just serves some static assets.
+
+To build the full server locally:
 
 ```
-npm install
+bash build.sh
+```
+
+Then to run it:
+
+```
+cd release
+./server
+```
+
+This should run the server at localhost:80.
+
+Alternatively, you can run only the cube page with auto recompiling:
+
+```
+cd cubes
 npm run serve
 ```
 
-The webpack server should start running at http://localhost:8080
+This should run a webpack dev server on localhost:8080 or similar.
