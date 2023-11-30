@@ -39,7 +39,7 @@ impl Grid {
     pub fn cartesian_to_iso(&self, x: f64, y: f64) -> (f64, f64) {
         let (left_offset, top_offset) = self.offset();
 
-        let x = (x - left_offset) * self.device_pixel_ratio/2.0;
+        let x = (x - left_offset) * self.device_pixel_ratio / 2.0;
         let y = (y - top_offset) * self.device_pixel_ratio;
 
         ((x + y), (y - x))
