@@ -17,7 +17,7 @@ if [[ $1 == "prod" ]]; then
 else
   cd artcx
   echo "Building development server"
-  cargo build
+  cargo build --release
   cd -
   cp artcx/target/release/artcx dist/server
 
@@ -26,5 +26,5 @@ else
   cd -
 fi
 
-cp cubes/dist/* dist/static/
-cp artcx/public/* dist/static/
+cp -r cubes/dist/* dist/static/
+cp -r artcx/public/* dist/static/

@@ -133,15 +133,13 @@ impl CubeGrid {
                 "https://github.com/artursapek",
                 &context,
             ),
-            /*
             Link::new(
                 770.0,
                 600.0,
-                "Resume",
-                "https://github.com/artursapek",
+                "Blog",
+                "./blog",
                 &context,
             ),
-            */
         ];
 
         CubeGrid {
