@@ -124,30 +124,13 @@ impl CubeGrid {
             .unwrap();
         let context = Rc::new(context);
 
-        let links = vec![
-            Link::new(630.0, 600.0, "art@art.cx", "mailto:art@art.cx", &context),
-            Link::new(
-                700.0,
-                600.0,
-                "GitHub",
-                "https://github.com/artursapek",
-                &context,
-            ),
-            Link::new(
-                770.0,
-                600.0,
-                "Blog",
-                "./blog",
-                &context,
-            ),
-        ];
-
         CubeGrid {
             next_id: 1,
 
             grid: Grid::default(),
 
             cubes: Vec::new(),
+            links: Vec::new(),
 
             canvas,
             context,
@@ -158,8 +141,6 @@ impl CubeGrid {
             window_dimensions: Rc::new(RefCell::new(WindowDimensions::default())),
 
             mouse_state: MouseState::default(),
-
-            links,
         }
     }
 
@@ -169,6 +150,12 @@ impl CubeGrid {
             self.next_id += 1;
             self.cubes.push(cube);
         }
+    }
+
+    pub fn insert_link(&mut self, x: f64, y: f64, label: &'static str, url: &'static str) {
+        self.links.push(Link::new(
+                x,y,label,url,&self.context,
+        ))
     }
 
     #[allow(unused_must_use)]
